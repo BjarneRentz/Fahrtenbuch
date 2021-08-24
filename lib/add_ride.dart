@@ -111,6 +111,7 @@ class _AddRideState extends State<AddRide> {
                     keyboardType: TextInputType.text,
                     onChanged: (value) => _description = value,
                     textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => submitRide(),
                     decoration: InputDecoration(
                       hintText: 'Beschreibung',
                       icon: Icon(Icons.description),

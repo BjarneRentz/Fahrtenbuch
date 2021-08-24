@@ -47,9 +47,10 @@ class DashboardContent extends StatelessWidget {
                       .entries
                       .map<Widget>((entry) => Card(
                             child: ListTile(
-                              title: Text(DateFormat.yMMM().format(entry.key) +
+                              title: Text(DateFormat.yMMMM().format(entry.key) +
                                   ' ' +
-                                  entry.value.toString()),
+                                  entry.value.toString() +
+                                  ' Km'),
                             ),
                           ))
                       .toList(),
