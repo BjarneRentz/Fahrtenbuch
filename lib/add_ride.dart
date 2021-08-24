@@ -17,7 +17,7 @@ class _AddRideState extends State<AddRide> {
 
   late String _milageStart;
   late String _milageEnd;
-  late String _description;
+  String _description = '';
 
   DateTime _date = DateTime.now();
 
@@ -71,17 +71,33 @@ class _AddRideState extends State<AddRide> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     onChanged: (value) => _milageStart = value,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value == null || value.trim().length == 0) {
+                        return 'Feld darf nicht leer sein';
+                      }
+                    },
                     decoration: InputDecoration(
                         hintText: 'Kilometerstand Start',
                         icon: Icon(Icons.directions),
                         border: OutlineInputBorder(),
                         suffixText: 'Km'),
-                  ),SizedBox(
+                  ),
+                  SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.number,
                     onChanged: (value) => _milageEnd = value,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if (value == null || value.trim().length == 0) {
+                        return 'Feld darf nicht leer sein';
+                      }
+                      if (double.parse(_milageStart) >=
+                          double.parse(_milageEnd))
+                        return 'Gefahrene Kilometer dürfen nicht negativ sein';
+                    },
                     decoration: InputDecoration(
                         hintText: 'Kilometerstand Ende',
                         icon: Icon(Icons.flag),
@@ -94,6 +110,7 @@ class _AddRideState extends State<AddRide> {
                   TextFormField(
                     keyboardType: TextInputType.text,
                     onChanged: (value) => _description = value,
+                    textInputAction: TextInputAction.done,
                     decoration: InputDecoration(
                       hintText: 'Beschreibung',
                       icon: Icon(Icons.description),
@@ -102,7 +119,8 @@ class _AddRideState extends State<AddRide> {
                   )
                 ],
               ),
-              ElevatedButton(onPressed: () => submitRide(), child: Icon(Icons.add))
+              ElevatedButton(
+                  onPressed: () => submitRide(), child: Icon(Icons.add))
             ],
           ),
         ),
@@ -111,6 +129,10 @@ class _AddRideState extends State<AddRide> {
   }
 
   void submitRide() {
+    if (_formKey.currentState != null && !_formKey.currentState!.validate()) {
+      return;
+    }
+
     int milageStart = (double.parse(_milageStart) * 1000).toInt();
     int milageEnd = (double.parse(_milageEnd) * 1000).toInt();
 
