@@ -2,6 +2,7 @@ import 'package:fahrtenbuch/animated_counter.dart';
 import 'package:fahrtenbuch/no_data_card.dart';
 import 'package:fahrtenbuch/provider/ride_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'models/ride.dart';
@@ -35,16 +36,43 @@ class DashboardContent extends StatelessWidget {
         child: Column(
           children: [
             AnimatedCounter(distanceSum),
-            Text('Gefahrene Kilometer insgesamt')
+            Text('Gefahrene Kilometer insgesamt'),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: calculateMonthlyOverview(provider.rides)
+                      .entries
+                      .map<Widget>((entry) => Card(
+                            child: ListTile(
+                              title: Text(DateFormat.yMMM().format(entry.key) +
+                                  ' ' +
+                                  entry.value.toString()),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  Map<DateTime, double> calculateMonthlyOverview() {
+  Map<DateTime, double> calculateMonthlyOverview(List<Ride> rides) {
     var result = Map<DateTime, double>();
 
+    for (var ride in rides) {
+      var monthDate = DateTime(ride.date.year, ride.date.month);
+      if (result.containsKey(monthDate)) {
+        result[monthDate] = (result[monthDate]! + (ride.distance / 1000));
+      } else {
+        result[monthDate] = ride.distance / 1000;
+      }
+    }
     return result;
   }
 }
