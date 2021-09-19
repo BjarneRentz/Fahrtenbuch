@@ -14,10 +14,12 @@ class Ride extends HiveObject {
   int mileageStart;
 
   @HiveField(2)
-  int milageEnd;
+  int? milageEnd;
 
   @HiveField(3)
   String description ='';
 
-  int get distance => milageEnd - mileageStart;
+  int get distance => milageEnd ?? 0 - mileageStart;
+
+  bool get finished => milageEnd != null;
 }

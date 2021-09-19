@@ -19,7 +19,7 @@ class RideAdapter extends TypeAdapter<Ride> {
     return Ride(
       fields[0] as DateTime,
       fields[1] as int,
-      fields[2] as int,
+      fields[2] as int?,
       description: fields[3] as String,
     );
   }

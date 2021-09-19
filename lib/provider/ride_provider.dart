@@ -34,6 +34,13 @@ class RideProvider extends ChangeNotifier {
     _rides.addAll(_box.values);
   }
 
+  void updateRide(Ride ride) {
+    //TODO: remove doesnt work!
+    _rides.removeWhere((r) => r.key == ride.key);
+    _box.delete(ride.key);
+    add(ride);
+  }
+
   
   
 }
