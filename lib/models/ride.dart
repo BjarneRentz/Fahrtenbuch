@@ -3,8 +3,6 @@ part 'ride.g.dart';
 
 @HiveType(typeId: 0)
 class Ride extends HiveObject {
-
- 
   Ride(this.date, this.mileageStart, this.milageEnd, {this.description = ''});
 
   @HiveField(0)
@@ -17,9 +15,9 @@ class Ride extends HiveObject {
   int? milageEnd;
 
   @HiveField(3)
-  String description ='';
+  String description = '';
 
-  int get distance => milageEnd ?? 0 - mileageStart;
+  int get distance => milageEnd == null ? 0 : milageEnd! - mileageStart;
 
   bool get finished => milageEnd != null;
 }
