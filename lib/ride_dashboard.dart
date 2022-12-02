@@ -13,7 +13,11 @@ class RideDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<RideProvider>(builder: (context, provider, child) {
-      return provider.rides.isEmpty ? NoDataHint() : DashboardContent(provider);
+      return Padding(
+          padding: const EdgeInsets.all(16),
+          child: provider.rides.isEmpty
+              ? NoDataHint()
+              : DashboardContent(provider));
     });
   }
 }
@@ -31,7 +35,6 @@ class DashboardContent extends StatelessWidget {
         1000;
     print(distanceSum);
     return Container(
-      padding: EdgeInsets.all(16.0),
       child: Center(
         child: Column(
           children: [
