@@ -10,7 +10,11 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<Ride>(RideAdapter());
   await Hive.openBox<Ride>('rides');
-  runApp(MultiProvider(providers: [ChangeNotifierProvider(create: (context) => RideProvider(),)],child: MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => RideProvider(),
+    )
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,9 +24,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fahrtenbuch',
       theme: ThemeData(
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
+          // is not restarted.
+          primarySwatch: Colors.blue,
+          useMaterial3: true),
       home: App(),
     );
   }
