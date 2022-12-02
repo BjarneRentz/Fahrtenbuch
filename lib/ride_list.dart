@@ -48,7 +48,7 @@ class RideList extends StatelessWidget {
               Ride currentRide = finishedRides.elementAt(index);
               return Card(
                   child: ListTile(
-                    onTap: () => editRide(context, currentRide),
+                onTap: () => editRide(context, currentRide),
                 title: Text(
                     'Fahrt über ${currentRide.distance / 1000} Km am ${DateFormat.yMMMd().format(currentRide.date)}'),
                 subtitle: Row(
@@ -91,15 +91,15 @@ class RideList extends StatelessWidget {
         builder: (context) {
           return SingleChildScrollView(
             child: Container(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, top: 16.0, left: 16.0, right: 16.0),
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                  top: 16.0,
+                  left: 16.0,
+                  right: 16.0),
               child: EditRide(
                 ride: ride,
-                submitRide: (ride) {
-                  var rideProvider =
-                      Provider.of<RideProvider>(context, listen: false);
-                  rideProvider.updateRide(ride);
-                  Navigator.pop(context);
-                },
+                rideProvider: Provider.of<RideProvider>(context, listen: false),
+                onSubmittedCallback: () => Navigator.pop(context),
               ),
             ),
           );

@@ -1,14 +1,21 @@
 import 'package:fahrtenbuch/models/ride.dart';
+import 'package:fahrtenbuch/provider/ride_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EditRide extends StatefulWidget {
-  const EditRide({Key? key, required this.submitRide, this.ride})
+  const EditRide(
+      {Key? key,
+      required this.rideProvider,
+      this.ride,
+      required this.onSubmittedCallback})
       : super(key: key);
 
   final Ride? ride;
 
-  final void Function(Ride ride) submitRide;
+  final RideProvider rideProvider;
+
+  final Function onSubmittedCallback;
 
   @override
   _EditRideState createState() => _EditRideState(ride);
@@ -151,7 +158,7 @@ class _EditRideState extends State<EditRide> {
 
       Ride ride =
           Ride(_date, milageStart, milageEnd, description: _description);
-      widget.submitRide(ride);
+      widget.rideProvider.add(ride);
     } else if (_ride != null) {
       _ride!.mileageStart = (double.parse(_milageStart) * 1000).toInt();
       if (_milageEnd != null)
@@ -159,7 +166,8 @@ class _EditRideState extends State<EditRide> {
       _ride!.description = _description;
       _ride!.date = _date;
 
-      widget.submitRide(_ride!);
+      widget.rideProvider.updateRide(_ride!);
     }
+    widget.onSubmittedCallback();
   }
 }

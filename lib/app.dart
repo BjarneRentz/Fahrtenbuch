@@ -23,10 +23,20 @@ class _AppState extends State<App> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appTitles[index]),
+        actions: [
+          IconButton(
+              onPressed: () => showAboutDialog(
+                  context: context,
+                  applicationName: 'Fahrtenbuch',
+                  applicationLegalese: 'Github.com/BjarneRentz/Fahrtenbuch'),
+              icon: Icon(Icons.info))
+        ],
       ),
       body: widgets.elementAt(index),
       floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: Icon(Provider.of<RideProvider>(context).hasUnfinishedRides
+              ? Icons.done_all
+              : Icons.add),
           onPressed: () {
             showModalBottomSheet(
                 isScrollControlled: true,
@@ -40,12 +50,11 @@ class _AppState extends State<App> {
                           left: 16.0,
                           right: 16.0),
                       child: EditRide(
-                        submitRide: (ride) {
-                          var rideProvider =
-                              Provider.of<RideProvider>(context, listen: false);
-                          rideProvider.add(ride);
-                          Navigator.pop(context);
-                        },
+                        ride: Provider.of<RideProvider>(context, listen: false)
+                            .unfinishedRide,
+                        rideProvider:
+                            Provider.of<RideProvider>(context, listen: false),
+                        onSubmittedCallback: () => Navigator.pop(context),
                       ),
                     ),
                   );
