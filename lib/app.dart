@@ -7,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatefulWidget {
-  const App({ Key? key }) : super(key: key);
+  const App({Key? key}) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-
   final List<Widget> widgets = [RideOverview(), RideDashboard()];
+  final List<String> appTitles = ["Fahrten", "Übersicht"];
 
   int index = 0;
 
@@ -23,45 +23,45 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mein Fahrtenbuch'),
+        title: Text(appTitles[index]),
       ),
       body: widgets.elementAt(index),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (context) {
-          return SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, top: 16.0, left: 16.0, right: 16.0),
-              child: EditRide(
-                submitRide: (ride) {
-                  var rideProvider =
-                      Provider.of<RideProvider>(context, listen: false);
-                  rideProvider.add(ride);
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          );
-        });
-        }),
+          child: Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                          top: 16.0,
+                          left: 16.0,
+                          right: 16.0),
+                      child: EditRide(
+                        submitRide: (ride) {
+                          var rideProvider =
+                              Provider.of<RideProvider>(context, listen: false);
+                          rideProvider.add(ride);
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  );
+                });
+          }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       bottomNavigationBar: BottomNavigationBar(
-        
         items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.directions_car),
-          label: 'Fahrten'
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.insights), label: 'Übersicht')
-      ],
-      currentIndex: index,
-      onTap: (index) => setState(() => 
-        this.index = index),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.directions_car), label: 'Fahrten'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.insights), label: 'Übersicht')
+        ],
+        currentIndex: index,
+        onTap: (index) => setState(() => this.index = index),
       ),
     );
   }
