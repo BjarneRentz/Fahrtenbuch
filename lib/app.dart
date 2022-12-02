@@ -1,4 +1,3 @@
-import 'package:fahrtenbuch/add_ride.dart';
 import 'package:fahrtenbuch/provider/ride_provider.dart';
 import 'package:fahrtenbuch/ride_dashboard.dart';
 import 'package:fahrtenbuch/ride_overview.dart';

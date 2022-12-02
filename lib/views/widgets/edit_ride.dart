@@ -83,6 +83,7 @@ class _EditRideState extends State<EditRide> {
                   if (value == null || value.trim().length == 0) {
                     return 'Feld darf nicht leer sein';
                   }
+                  return null;
                 },
                 decoration: InputDecoration(
                     hintText: 'Kilometerstand Start',
@@ -103,6 +104,7 @@ class _EditRideState extends State<EditRide> {
                     if (double.parse(_milageStart) >= double.parse(_milageEnd!))
                       return 'Gefahrene Kilometer dürfen nicht negativ sein';
                   }
+                  return null;
                 },
                 decoration: InputDecoration(
                     hintText: 'Kilometerstand Ende',
@@ -150,15 +152,13 @@ class _EditRideState extends State<EditRide> {
       Ride ride =
           Ride(_date, milageStart, milageEnd, description: _description);
       widget.submitRide(ride);
-    } else if (_ride != null){
-
-
+    } else if (_ride != null) {
       _ride!.mileageStart = (double.parse(_milageStart) * 1000).toInt();
       if (_milageEnd != null)
         _ride!.milageEnd = (double.parse(_milageEnd!) * 1000).toInt();
       _ride!.description = _description;
-      _ride!.date = _date; 
-      
+      _ride!.date = _date;
+
       widget.submitRide(_ride!);
     }
   }
